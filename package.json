@@ -5,6 +5,7 @@
   "license": "MIT",
   "repository": "b52/electron-es6-react",
   "scripts": {
+    "test": "echo 'Error: no test specified' && exit 1",
     "start": "electron ."
   },
   "dependencies": {
@@ -12,9 +13,12 @@
     "babel-preset-react": "^6.3.13",
     "babel-register": "^6.3.13",
     "react": "^15.3.2",
+    "react-css-modules": "^3.7.10",
     "react-dom": "^15.3.2"
   },
   "devDependencies": {
+    "babel-cli": "^6.16.0",
+    "babel-plugin-webpack-loaders": "^0.8.0",
     "electron": "^1.4.3"
   }
 }

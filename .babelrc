@@ -1,1 +1,15 @@
-{ "presets": ["es2015", "react"] }
+{ "presets": ["es2015", "react"],
+"env": {
+    "EXAMPLE": {
+      "plugins": [
+        [
+          "babel-plugin-webpack-loaders",
+          {
+            "config": "./webpack.config.js",
+            "verbose": false,
+          }
+        ]
+      ]
+    }
+  },
+"plugins": ["babel-plugin-react-css-modules", "css-modules-transform"] }
