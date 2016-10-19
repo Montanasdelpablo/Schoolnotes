@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Note from './note.jsx';
+import {Row, Col} from 'react-bootstrap';
 
 export default class Notes extends React.Component {
   componentWillReceiveProps(){
@@ -13,9 +14,14 @@ export default class Notes extends React.Component {
     const { notes } = this.props 
 
     return <div> 
-                <h2> Note overview </h2>
+                <Row style={{marginBottom: 5}}>
+                    <Col xs={12} md={10} lg={10} mdPush={1} lgPush={1}>
+                        <h2> Note overview </h2>
+                    </Col>
+                </Row>
+                
                 {notes.map((note, index) => {
-                    return <div key={note.note_id}> <Note  i={index} note={note} /> <hr /> </div>
+                    return <Row key={note.note_id}> <Col xs={12} md={10} mdPush={1} lg={10} lgPush={1}> <Note  i={index} note={note} /> <hr /> </Col> </Row>
                 })}
 
 

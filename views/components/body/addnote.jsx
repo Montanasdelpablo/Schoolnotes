@@ -1,10 +1,11 @@
+// main
 import React from 'react';
-import CSSModules from 'react-css-modules';
-import styles from '../../style.css';
+
+// ui
+import Button from '../../ui/button.jsx';
 
 
-
- class Addnote extends React.Component {
+class Addnote extends React.Component {
   constructor(){
       super()
       
@@ -20,14 +21,17 @@ import styles from '../../style.css';
  }
   
   render() {
-    return <div> 
-                
-
-                <input ref="notename" onChange={this.handleChange.bind(this, event)} placeholder="Note name.."/> 
-                <button styleName='buttongreen' onClick={this.makeNote.bind(this)}> Add </button>
-                
-           </div>;
-  }
+    return(        
+              <div className="input-group">
+                        <input type="text" aria-describedby="sizing-addon2" className="form-control" ref="notename" onChange={this.handleChange.bind(this, event)} placeholder="Note name.."/>
+                        <span className="input-group-btn">
+                            <Button kind="primary" onClick={this.makeNote.bind(this)}> Add </Button>
+                        </span>
+                         
+              </div>
+        )
+           
+     }
 }
 
-export default CSSModules(Addnote, styles)
+export default Addnote
