@@ -16,11 +16,38 @@ export default class Item extends React.Component {
           content: '',
           editing: true,
           display: false,
+          editingname: false,
+          itemname: '',
+          input: '',
       }
     }
     componentWillMount(){
-        console.log("Added this item to note", this.props.item)
+      let itemName = this.props.item.item_name
+      this.setState({
+          itemname: itemName
+      })
     }
+    toggleEditing(){
+      let current = this.state.editingname
+      this.setState({
+          editingname: !current
+      })
+    }
+     handleInput(e){
+      this.setState({
+          input:  e.target.value
+      })
+      console.log(e.target.value)
+      }
+
+    save(){
+      let val = this.state.input
+      this.setState({
+          itemname: val
+      })
+      this.toggleEditing()
+      console.log("Saved input: ", val)
+     }
 
     toggleView(){
         let current = this.state.display
@@ -110,7 +137,7 @@ export default class Item extends React.Component {
                     <Col xs={12} lg={12}> 
                         <Row>
                             <Col xs={12} lg={12}>
-                                <h4> Add nested item inside of {item.item_name} </h4>
+                                <h4> Add nested item inside of "{item.item_name}" </h4>
                             </Col>
                         </Row>
                         <Row>
@@ -119,7 +146,7 @@ export default class Item extends React.Component {
                                     <span className="input-group-btn">
                                         <Button type="button" kind="info" onClick={this.addNestedItem.bind(this)}> Add </Button>
                                     </span>
-                                    <input ref="itemInput" className="form-control" onChange={this.handleChange.bind(this, event)} placeholder="Nested Item name"/> 
+                                    <input ref="itemInput" className="form-control" onChange={this.handleChange.bind(this, event)} placeholder="Nested item name"/> 
                                 </div>
                             </Col>
                         </Row>
@@ -130,18 +157,27 @@ export default class Item extends React.Component {
                </div>
     }
 
+    var itemName = <h4 style={{color: '#fff'}}> <strong> {this.state.itemname} </strong> <span style={{color: '#F5F5F5', fontSize: 15}}>-  made at: {item.item_made} </span></h4>;
+    if (this.state.editingname){
+        itemName = <div> <input style={{width: 125, marginTop: 2}} onChange={this.handleInput.bind(this, event)} className="form-control" placeholder={this.state.itemname} /> <span style={{color: '#F5F5F5', fontSize: 15}}>-  made at: {item.item_made} </span></div>
+    }
+
+    var button = <Button kind="primary" onClick={this.toggleEditing.bind(this, event)}> Edit name </Button>
+    if (this.state.editingname){
+        button = <Button kind="primary" onClick={this.save.bind(this)}> Save name </Button>
+    }
     
     return <div> 
                 <Row style={{backgroundColor: '#31b0d5', padding: 5,  borderBottom: '4px solid #F5F5F5'}}>
                     <Col xs={12} md={12} lg={12}>
                         <Row>
                             <Col xs={7} md={7} lg={7}>
-                            <h4 style={{color: '#fff'}}> <strong> {item.item_name} </strong> <span style={{color: '#F5F5F5', fontSize: 15}}>-  made at: {item.item_made} </span></h4>
+                                {itemName}
                             </Col>
 
                             <Col className="text-right" xs={4} md={4} lg={4} style={{padding: 2}}>
                                 <span style={{marginRight: 5}}>
-                                <Button kind="primary"> Edit name </Button>
+                                    {button}
                                 </span>
                                <Button kind="danger"> Remove item </Button>
                                

@@ -13,11 +13,19 @@ export default class Note extends React.Component {
       this.state = {
           noteitemname: '',
           items: [],
-          display: false
+          display: false,
+          editing: false,
+          input: '',
+          notename: '',
       }
   }
 
-  
+  componentWillMount(){
+      let noteName = this.props.note.note_name
+      this.setState({
+          notename: noteName
+      })
+  }
 
   handleChange(e){
       let val = e.target.value
@@ -25,12 +33,32 @@ export default class Note extends React.Component {
           noteitemname: val
       })
   }
+  handleInput(e){
+      this.setState({
+          input:  e.target.value
+      })
+      console.log(e.target.value)
+  }
+  save(){
+      let val = this.state.input
+      this.setState({
+          notename: val
+      })
+      this.toggleEditing()
+      console.log("Saved input: ", val)
+  }
 
   toggleView(){
     let current = this.state.display
     this.setState({
         display: !current
     })
+  }
+  toggleEditing(){
+      let current = this.state.editing
+      this.setState({
+          editing: !current
+      })
   }
 
   addItem(){
@@ -65,14 +93,24 @@ export default class Note extends React.Component {
                 <hr />
                 
                 <Row style={{padding: 5, marginBottom: 15, backgroundColor: '#EEEEEE', borderBottom: '4px solid #FAFAFA'}}>
-                    <h4> Add main items </h4>
+                    <h4> Add main items to "{note.note_name}" </h4>
                     <div className="input-group">
                         <span className="input-group-btn">
                             <Button kind="success" onClick={this.addItem.bind(this)}> Add </Button>
                         </span>
-                         <input ref="itemInput" className="form-control" onChange={this.handleChange.bind(this, event)} placeholder="Item name"/>  
+                         <input ref="itemInput" className="form-control" onChange={this.handleChange.bind(this, event)} placeholder="Main item name"/>  
                     </div>
                 </Row> </div>
+    }
+
+    var noteName = <h3 style={{color: '#fff'}}> <strong> { this.state.notename } </strong> </h3>;
+    if (this.state.editing){
+        noteName = <input style={{width: 250, marginTop: 15}} onChange={this.handleInput.bind(this, event)} className="form-control" placeholder={this.state.notename} />
+    }
+
+    var button = <Button kind="primary" onClick={this.toggleEditing.bind(this, event)}> Edit name </Button>
+    if (this.state.editing){
+        button = <Button kind="primary" onClick={this.save.bind(this)}> Save name </Button>
     }
 
 
@@ -83,7 +121,7 @@ export default class Note extends React.Component {
                             <Col xs={7} md={7} lg={7}>
                                 <Row>
                                     <Col xs={12} md={4} lg={5}> 
-                                       <h3 style={{color: '#fff'}}> <strong>  { note.note_name } </strong>  </h3> 
+                                       {noteName}
                                     </Col>
                                 </Row>
                                 <Row>
@@ -94,9 +132,9 @@ export default class Note extends React.Component {
                             </Col>
                             <Col className="text-right" xs={4} md={4} lg={4} style={{paddingTop: 7}}>
                                 <span style={{marginRight: 5}}>
-                                <Button kind="primary"> Edit name </Button>
+                                    {button}
                                 </span>
-                               <Button kind="danger"> Remove item </Button>
+                               <Button kind="danger"> Remove note </Button>
                                                       
                            </Col>
                             <Col xs={1} md={1} lg={1} className="glyphicon glyphicon-chevron-down" style={{paddingTop: 7, cursor: 'pointer'}} onClick={this.toggleView.bind(this)}>
